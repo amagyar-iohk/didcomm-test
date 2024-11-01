@@ -28,6 +28,8 @@ jobs:
           WEBHOOK_URL: http://host.docker.internal:3000
         run: |
           ./docker/run.sh 1.39.1-101-228f07b
+          curl -f http://prism-agent:8090/_system/health
+          curl -f http://mediator:8080/health
           npm i
           npm test
           ./docker/stop.sh

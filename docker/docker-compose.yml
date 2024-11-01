@@ -32,7 +32,6 @@ services:
       - ./initdb.js:/docker-entrypoint-initdb.d/initdb.js
 
   mediator:
-    network_mode: "container:didcomm-stack"
     image: ghcr.io/hyperledger/identus-mediator:1.0.0
     environment:
       # Creates the identity:
@@ -47,6 +46,8 @@ services:
       - MONGODB_HOST=mongo
       - MONGODB_PORT=27017
       - MONGODB_DB_NAME=mediator
+    ports:
+      - "8080:8080"
     depends_on:
       - "mongo"
       - "prism-agent"
@@ -63,10 +64,8 @@ services:
         condition: service_healthy
 
   prism-agent:
-    container_name: didcomm-stack
     image: ghcr.io/hyperledger/identus-cloud-agent:${CLOUD_AGENT_VERSION}
     ports:
-      - "8080:8080"
       - "8090:8090"
       - "8091:8091"
     environment:
