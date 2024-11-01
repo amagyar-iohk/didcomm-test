@@ -7,6 +7,10 @@ export class CloudAgent implements Initializable {
     private restFetch = new RestFetch(CloudAgent.CLOUD_AGENT_URL)
 
     async init(): Promise<void> {
+        let cloudAgentHealthResponse = await this.restFetch.get('/_system/health');
+        if (cloudAgentHealthResponse.status != 200) {
+            throw new Error("Cloud Agent is not healthy")
+        }
     }
 
     async createConnection() {
