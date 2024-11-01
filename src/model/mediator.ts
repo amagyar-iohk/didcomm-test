@@ -1,5 +1,16 @@
-export class Mediator {
+import {Initializable} from "./initializable";
+import {RestFetch} from "../common/fetch";
+export class Mediator implements Initializable {
+    private static MEDIATOR_URL: string = process.env.MEDIATOR_URL || "http://localhost:8080"
     private static MEDIATOR_OOB_URL = process.env.MEDIATOR_OOB_URL || "http://localhost:8080/invitationOOB"
+    private restFetch = new RestFetch(Mediator.MEDIATOR_URL)
+
+    async init(): Promise<void> {
+        let healthResponse = await this.restFetch.get('/health');
+        if (healthResponse.status != 200) {
+            throw new Error("Mediator is not healthy")
+        }
+    }
 
     async getMediatorDidThroughOob() {
         const myHeaders = new Headers();
