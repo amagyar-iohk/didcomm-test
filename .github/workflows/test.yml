@@ -23,8 +23,6 @@ jobs:
           node-version: 20
 
       - name: Run didcomm tests
-        env:
-          AGENT_VERSION: ${{ steps.build_local_cloud_agent.outputs.agent_version }}
         run: |
           ./docker/run.sh 1.39.1-101-228f07b
           npm i
