@@ -4,6 +4,7 @@ import { CloudAgent } from "./model/cloud-agent"
 import { WebhookServer } from "./model/webhook-server"
 import { Wallet } from "./model/wallet"
 import { waitFor } from "./util"
+import {Mediator} from "./model/mediator";
 
 type Context = {
     wallet: Wallet,
@@ -11,6 +12,7 @@ type Context = {
     webhookServer: WebhookServer
     connectionEstabilished: boolean
     testData: Map<string, any>
+    mediator: Mediator
 }
 
 export class Workflow {
@@ -19,10 +21,11 @@ export class Workflow {
         cloudAgent: null,
         webhookServer: null,
         connectionEstabilished: false,
-        testData: new Map<string, any>()
+        testData: new Map<string, any>(),
+        mediator: null
     }
 
-    async setup(config: { wallet?: boolean, cloudAgent?: boolean, server?: boolean}) {
+    async setup(config: { wallet?: boolean, cloudAgent?: boolean, server?: boolean, mediator?: boolean }) {
         const setupList = []
         
         if (config.wallet) {
@@ -33,6 +36,11 @@ export class Workflow {
         if (config.cloudAgent) {
             this.ctx.cloudAgent = new CloudAgent()
             setupList.push(this.ctx.cloudAgent.init())
+        }
+
+        if (config.mediator) {
+            this.ctx.mediator = new Mediator()
+            setupList.push(this.ctx.mediator.init())
         }
 
         if (config.server) {
