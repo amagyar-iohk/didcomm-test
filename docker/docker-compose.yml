@@ -40,7 +40,7 @@ services:
       - KEY_AGREEMENT_X=Sr4SkIskjN_VdKTn0zkjYbhGTWArdUNE4j_DmUpnQGw
       - KEY_AUTHENTICATION_D=INXCnxFEl0atLIIQYruHzGd5sUivMRyQOzu87qVerug
       - KEY_AUTHENTICATION_X=MBjnXZxkMcoQVVL21hahWAw43RuAG-i64ipbeKKqwoA
-      - SERVICE_ENDPOINTS=http://localhost:8080;ws://localhost:8080/ws
+      - SERVICE_ENDPOINTS=http://mediator:8080;ws://mediator:8080/ws
       - MONGODB_USER=admin
       - MONGODB_PASSWORD=admin
       - MONGODB_PROTOCOL=mongodb
@@ -91,9 +91,9 @@ services:
       AGENT_DB_USER: postgres
       AGENT_DB_PASSWORD: postgres
       AGENT_HTTP_PORT: 8090
-      REST_SERVICE_URL: http://localhost:8090
+      REST_SERVICE_URL: http://prism-agent:8090
       AGENT_DIDCOMM_PORT: 8091
-      DIDCOMM_SERVICE_URL: http://localhost:8091
+      DIDCOMM_SERVICE_URL: http://prism-agent:8091
       PRISM_NODE_HOST: prism-node
       PRISM_NODE_PORT: 50053
       SECRET_STORAGE_BACKEND: postgres
@@ -119,6 +119,8 @@ services:
         condition: service_healthy
       prism-node:
         condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8090/_system/health"]
       interval: 10s
