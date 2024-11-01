@@ -26,12 +26,12 @@ jobs:
       - name: Run didcomm tests
         env:
           WEBHOOK_URL: http://host.docker.internal:3000
-          CLOUD_AGENT_URL: http://prism-agent:8090
-          MEDIATOR_OOB_URL: http://mediator:8080/invitationOOB
+#          CLOUD_AGENT_URL: http://prism-agent:8090
+#          MEDIATOR_OOB_URL: http://mediator:8080/invitationOOB
         run: |
           ./docker/run.sh 1.39.1-101-228f07b
-          curl -f http://prism-agent:8090/_system/health
-          curl -f http://mediator:8080/health
+          curl -f http://localhost:8090/_system/health
+          curl -f http://localhost:8080/health
           npm i
           npm test
           ./docker/stop.sh
