@@ -28,7 +28,10 @@ export class WebhookServer implements Initializable {
     async init() {
         try {
             if (!this.fastify.server.listening) {
-                await this.fastify.listen({ port: WebhookServer.port })
+                await this.fastify.listen({
+                    host: "0.0.0.0",
+                    port: WebhookServer.port
+                })
             }
         } catch (err) {
             console.error(err)
