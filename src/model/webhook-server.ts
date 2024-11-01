@@ -15,6 +15,10 @@ export class WebhookServer implements Initializable {
     }
 
     private setupEndpoints() {
+        this.fastify.get("/health", async (_, res) => {
+            console.log("webhook health up and running")
+            res.code(200).send()
+        })
         this.fastify.post("/", async (req, res) => {
             this.eventEmitter.emit("message", req.body)
             res.code(202).send()
